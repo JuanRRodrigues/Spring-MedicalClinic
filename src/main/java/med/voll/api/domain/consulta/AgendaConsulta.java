@@ -4,7 +4,7 @@ import jakarta.validation.ValidationException;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.PacienteRepository;
-import med.voll.api.domain.validacaoExecpiton;
+import med.voll.api.domain.ValidacaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class AgendaConsulta {
     public void agendar(DadosAgendamentoConsulta data){
 
     if (!pacienteRepository.existsById(data.idPaciente())){
-        throw new validacaoExecpiton("id do paciente informado não existe!");
+        throw new ValidacaoException("id do paciente informado não existe!");
     }
     if (data.idMedico() != null && !medicoRepository.existsById(data.idMedico())){
         throw new ValidationException("Id do médico informado não existe");
@@ -38,7 +38,7 @@ public class AgendaConsulta {
         }
 
         if(data.especialidade() == null){
-            throw new validacaoExecpiton("Especialidade é obrigatória quando médico não for escolhido");
+            throw new ValidacaoException("Especialidade é obrigatória quando médico não for escolhido");
         }
 
         return medicoRepository.escolherMedicoAleatorioLivreNaData(data.especialidade(), data.data());
